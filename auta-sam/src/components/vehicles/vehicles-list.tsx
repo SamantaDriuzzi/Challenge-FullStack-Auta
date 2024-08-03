@@ -37,7 +37,7 @@ const VehicleList: React.FC = () => {
   };
 
   const handleCardClick = (id: string) => {
-    navigate(`/vehicle/${id}`); // Redirige al detalle del vehículo
+    navigate(`/vehicle/${id}`); 
   };
 
   return (
@@ -67,7 +67,7 @@ const VehicleList: React.FC = () => {
         {error && <p>{error}</p>}
         {!loading && !error && vehicles.length === 0 && <NoVehiclesMessage>No vehicles found</NoVehiclesMessage>}
         {vehicles.map((vehicle) => (
-          <VehicleCard key={vehicle.id} onClick={() => handleCardClick(vehicle.id)}> {/* Añade el manejador de clic */}
+          <VehicleCard key={vehicle.id} onClick={() => handleCardClick(vehicle.id)}> 
             <img src={vehicle.imageURL} alt={`${vehicle.brand} ${vehicle.model}`} />
             <div className="details">
               <p><span className="label">Marca:</span> <span className="value">{vehicle.brand}</span></p>
