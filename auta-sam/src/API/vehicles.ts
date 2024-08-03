@@ -2,7 +2,7 @@
 
   import { collection, getDocs, query, where, Query, DocumentData, CollectionReference, doc, getDoc } from "firebase/firestore";
   import { db } from '../firebase.config';
-  import { Vehicle, VehicleData, VehicleFilters } from '../interfaces/Ivehicles';
+import { Vehicle, VehicleData, VehicleFilters } from "../interfaces/Ivehicles";
 
   const isVehicleData = (data: any): data is VehicleData => {
     return (
