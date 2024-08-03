@@ -6,7 +6,8 @@ import Logo from "../../assets/logoAuta.png";
 function Navbar() {
 
   const secciones = [
-    { label: "Automoviles", path: "/", condition: true },
+    { label: "Inicio", path: "/", condition: true },
+    { label: "Automoviles", path: "/Autos", condition: true },
     { label: "Contacto", path: "/Contacto", condition: true },
     { label: "Registrarse", path: "/Registro", condition: true },
     { label: "Ingreso", path: "/Ingreso", condition: true },
