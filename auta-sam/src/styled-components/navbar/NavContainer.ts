@@ -14,11 +14,7 @@ export const NavContainer = styled.nav`
   z-index: 1000;
 
 
-  img {
-    width: 90px;
-    height: 60px;
-    margin: 20px 0  20px 0;
-  }
+ 
 
   ul {
     display: flex; 
@@ -34,6 +30,7 @@ export const NavContainer = styled.nav`
       font-size: 1rem;
       font-family: "Inter", sans-serif;
       padding: 8px;
+      font-weight: bold;
 
 
       a {
@@ -45,8 +42,32 @@ export const NavContainer = styled.nav`
         background-color: var(--color-primary);
         border-radius: 20px;
         padding: 8px;
-        color: var(--family-color);
+        color: var(--family-color-primary);
+        font-weight: bold;
       }
     }
   }
 `;
+export const NavStart = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 20px;
+`
+export const ElementNull = styled.div`
+  display: flex;
+  width: calc(100% / 3);
+`
+export const ImgContainer = styled.div`
+  display: flex;
+  width: calc(100% / 3);
+  justify-content: center;
+
+  img {
+    width: 40%;
+    height: auto;
+    margin: 20px 0  20px 0;
+  }
+`
