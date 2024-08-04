@@ -28,6 +28,17 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>Auta-Sam</title>
+    <!-- Script de Google Analytics con configuración de SameSite -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXX-Y"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-XXXXX-Y', {
+        'cookie_flags': 'SameSite=None;Secure'
+      });
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
