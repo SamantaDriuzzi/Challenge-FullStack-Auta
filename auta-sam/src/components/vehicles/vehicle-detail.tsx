@@ -99,9 +99,6 @@ const VehicleDetail: React.FC = () => {
         <Button>
           <button onClick={handleAddToCart}>Comprar</button>
         </Button>
-        <Button>
-          <button onClick={seeCartContext}>Ver estado de Cart</button>
-        </Button>
       </ModalDetail>
     </ContainerDetail>
   );
