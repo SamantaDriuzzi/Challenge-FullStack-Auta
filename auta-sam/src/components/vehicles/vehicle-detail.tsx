@@ -5,6 +5,7 @@ import { VehicleData } from '../../interfaces/Ivehicles';
 import { Button, ContainerDetail, ModalDetail } from '../../styled-components/vehicles/vehicle-detail';
 import { useCart } from '../../context/cart';
 import Swal from 'sweetalert2';
+import { useAuth } from '../../context/auth';
 
 const capitalizeFirstLetter = (string: string): string => {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -16,6 +17,7 @@ const VehicleDetail: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const { addToCart } = useCart();
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchVehicle = async () => {
@@ -39,6 +41,18 @@ const VehicleDetail: React.FC = () => {
   if (!vehicle) return <p>Vehicle not found</p>;
 
   const handleAddToCart = () => {
+    
+
+    if (!user) {
+      Swal.fire({
+        title: 'Acceso denegado',
+        text: 'Debes estar registrado para agregar vehículos al carrito',
+        icon: 'warning',
+        confirmButtonText: 'Aceptar'
+      });
+      return;
+    }
+
     if (vehicle) {
       addToCart(vehicle);
       console.log(`Vehicle ${vehicle.id} added to cart`);
