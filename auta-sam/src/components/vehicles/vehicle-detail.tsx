@@ -6,6 +6,7 @@ import { Button, ContainerDetail, ModalDetail } from '../../styled-components/ve
 import { useCart } from '../../context/cart';
 import Swal from 'sweetalert2';
 import { useAuth } from '../../context/auth';
+import Cart from '../cart/cart';
 
 const capitalizeFirstLetter = (string: string): string => {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -16,7 +17,7 @@ const VehicleDetail: React.FC = () => {
   const [vehicle, setVehicle] = useState<VehicleData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const { addToCart } = useCart();
+  const { addToCart, cart } = useCart();
   const { user } = useAuth();
 
   useEffect(() => {
@@ -26,6 +27,7 @@ const VehicleDetail: React.FC = () => {
       try {
         const vehicleData = await getVehicleById(id!);
         setVehicle(vehicleData);
+        console.log("🚗 data del auto por el ID", vehicleData);
       } catch (err) {
         setError('Failed to fetch vehicle details');
       } finally {
@@ -41,8 +43,6 @@ const VehicleDetail: React.FC = () => {
   if (!vehicle) return <p>Vehicle not found</p>;
 
   const handleAddToCart = () => {
-    
-
     if (!user) {
       Swal.fire({
         title: 'Acceso denegado',
@@ -54,26 +54,29 @@ const VehicleDetail: React.FC = () => {
     }
 
     if (vehicle) {
-      addToCart(vehicle);
-      console.log(`Vehicle ${vehicle.id} added to cart`);
-      if (vehicle.status === "available") {
+      try {
+        addToCart(vehicle);
         Swal.fire({
           title: 'Éxito',
           text: 'Vehículo agregado al carrito',
           icon: 'success',
           confirmButtonText: 'Aceptar'
         });
-      } else {
+      } catch (error) {
+        console.error(error);
         Swal.fire({
-          title: 'No disponible',
-          text: 'Vehículo no disponible',
+          title: 'Error',
+          text: 'Hubo un problema al agregar el vehículo al carrito',
           icon: 'error',
           confirmButtonText: 'Aceptar'
         });
       }
     }
   };
-  
+   const seeCartContext = () => {
+    console.log("Se agrega auto a cart si o no?", cart);
+    
+   }
 
   return (
     <ContainerDetail>

@@ -1,13 +1,23 @@
 import styled from 'styled-components';
+import vehiclePageCart from '../../assets/vehiclePageCart.svg';
 
 export const ContainerCart = styled.div`
   display: flex;
   flex-direction: column;
+  background-image: url(${vehiclePageCart});
+  background-position: center;
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   align-items: center;
+  justify-content: center;
   padding: 20px;
-  width: 90%;
-  max-width: 800px;
-  margin: 0 auto;
+  box-sizing: border-box;
+  padding-bottom: 100px;
+
 
   h1 {
     font-size: 24px;
