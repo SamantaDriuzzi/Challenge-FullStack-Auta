@@ -20,7 +20,29 @@ export const ContainerCart = styled.div`
 
 
   h1 {
+    margin-top: 250px;
     font-size: 24px;
+    margin-bottom: 20px;
+  }
+`;
+
+export const ContainerEmptyCart = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-sizing: border-box;
+
+  p{
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+
+  img {
+    width: 300px;
+    height: auto;
     margin-bottom: 20px;
   }
 `;
@@ -72,6 +94,7 @@ export const Button = styled.button`
   cursor: pointer;
   font-size: 16px;
   transition: background 0.3s;
+  margin: 20px;
 
   &:hover {
     background: #218838;
