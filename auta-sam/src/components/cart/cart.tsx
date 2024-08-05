@@ -1,15 +1,41 @@
 import React from 'react';
 import { useCart } from '../../context/cart';
-import { Button, CartItem, ContainerCart } from '../../styled-components/cart/cart';
+import { Button, CartItem, ContainerCart, ContainerEmptyCart } from '../../styled-components/cart/cart';
+import axios from "axios";
+import emptyCart from '../../assets/cart.svg';
 
 const Cart: React.FC = () => {
   const { cart, removeFromCart, clearCart } = useCart();
-  
+
+  const createPreference = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/create_preference",
+        cart
+      );
+      const { redirectUrl } = response.data;
+      return redirectUrl;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleBuy = async () => {
+    const url = await createPreference();
+    if (url) window.location.href = url;
+  };
+  const handleBack = () => {
+    window.location.href = '/Autos';
+  }
   return (
     <ContainerCart>
       <h1>Carrito de Compras</h1>
       {cart.length === 0 ? (
-        <p>El carrito está vacío</p>
+        <ContainerEmptyCart>
+          <img src={emptyCart} alt="Imágen de un usuario con un carrito indicando que no tiene productos" />
+          <p>¡NADA PORA AQUÍ!</p>
+          <Button onClick={handleBack}>Ver autos</Button>
+        </ContainerEmptyCart>
       ) : (
         cart.map((vehicle) => (
           <CartItem key={vehicle.id}>
@@ -23,10 +49,17 @@ const Cart: React.FC = () => {
           </CartItem>
         ))
       )}
-      <Button onClick={clearCart}>Vaciar Carrito</Button>
+      {cart.length > 0 &&
+        <>
+          <p>Total: ${cart.reduce
+            ((total, vehicle) => total + vehicle.price, 0)}
+          </p>
+          <Button onClick={clearCart}>Vaciar Carrito</Button>
+          <Button onClick={handleBuy}>Reservar</Button>
+        </>
+      }
     </ContainerCart>
   );
 };
-
 
 export default Cart;
