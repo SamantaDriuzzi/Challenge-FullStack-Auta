@@ -18,7 +18,7 @@ const SignInWithGoogle = () => {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
       await handleUser(user);
-      navigate('/Admin');
+      navigate('/Autos');
     } catch (error) {
       console.error("Error signing in with Google:", error);
       Swal.fire("Error", "Hubo un problema al iniciar sesión con Google. Inténtalo de nuevo.", "error");
