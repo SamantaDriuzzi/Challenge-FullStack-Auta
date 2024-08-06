@@ -63,6 +63,7 @@ function Navbar() {
     { label: 'Contacto', path: '/Contacto', condition: true },
     { label: 'Ingresar', path: '/Ingresar', condition: !user },
     { label: 'Panel Admin', path: '/Admin', condition: !user },
+    { label: 'Favoritos', path: '/favoritos', condition: !!user }
   ];
 
   return (
@@ -96,6 +97,7 @@ function Navbar() {
                 <Button onClick={handleCart}>Ver carrito</Button>
                 <Button onClick={handleSignOut}>Cerrar sesión</Button>
                 <Button onClick={handleAdmin}>Panel Admin</Button>
+                <Button onClick={() => window.location.href = '/Favoritos'}>Ver Favoritos</Button>
               </>
             ) : (
               <Button onClick={handleSignIn}>Iniciar sesión</Button>

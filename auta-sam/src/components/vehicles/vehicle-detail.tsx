@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getVehicleById } from '../../API/vehicles';
 import { VehicleData } from '../../interfaces/Ivehicles';
-import { Button, ContainerDetail, ModalDetail } from '../../styled-components/vehicles/vehicle-detail';
+import { Button, ContainerDetail, ModalDetail, TopButtons } from '../../styled-components/vehicles/vehicle-detail';
 import { useCart } from '../../context/cart';
 import Swal from 'sweetalert2';
 import { useAuth } from '../../context/auth';
@@ -21,6 +21,7 @@ const VehicleDetail: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const { addToCart } = useCart();
   const { user, toggleFavorite, favorites } = useAuth();
+  const [isFavoriteIcon, setIsFavoriteIcon] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchVehicle = async () => {
@@ -76,8 +77,8 @@ const VehicleDetail: React.FC = () => {
 
   const isFavorite = favorites.includes(vehicle.id!);
 
- 
-  
+
+
   const handleToggleFavorite = () => {
     if (!user) {
       Swal.fire({
@@ -90,14 +91,19 @@ const VehicleDetail: React.FC = () => {
     }
     if (id) {
       toggleFavorite(id);
-
+      setIsFavoriteIcon(!isFavoriteIcon);
     }
   };
 
   return (
     <ContainerDetail>
       <ModalDetail>
-        <button onClick={() => window.history.back()}>Volver</button>
+        <TopButtons>
+          <button onClick={() => window.history.back()}>Volver</button>
+          <button  className="favorite-button" onClick={handleToggleFavorite}>
+            {isFavoriteIcon ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+          </button>
+        </TopButtons>
         <h1>{capitalizeFirstLetter(vehicle.brand)} {capitalizeFirstLetter(vehicle.model)}</h1>
         <div className='image-container'>
           <img src={vehicle.imageURL} alt={`${vehicle.brand} ${vehicle.model}`} />
@@ -113,14 +119,9 @@ const VehicleDetail: React.FC = () => {
           <p><span className="label">Precio:</span> <span className="value">${vehicle.price}</span></p>
         </div>
         <Button>
-          <button onClick={handleAddToCart}>Comprar</button>
+          <button onClick={handleAddToCart}>Reservar</button>
         </Button>
-        <Button>
-          <button onClick={handleToggleFavorite}>
-            {isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-            {isFavorite ? ' Quitar de favoritos' : ' Agregar a favoritos'}
-          </button>
-        </Button>
+
       </ModalDetail>
     </ContainerDetail>
   );

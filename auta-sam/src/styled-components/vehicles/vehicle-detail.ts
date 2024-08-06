@@ -136,7 +136,25 @@ export const ModalDetail = styled.div`
     color: #777;
   }
 `;
+export const TopButtons = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 
+  .favorite-button {
+    color: var(--color-primary);
+    background: transparent;
+
+    &:hover {
+      background: transparent;
+      transition: all 0.3s ease;
+      scale: 1.2;
+    }
+  }
+
+`
 export const Button = styled.div`
   width: 100%;
   height: 50px;
