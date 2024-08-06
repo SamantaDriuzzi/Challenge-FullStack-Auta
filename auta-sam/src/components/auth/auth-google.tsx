@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
-import { auth, db, googleProvider } from '../../firebase.config'; 
+import { auth, db, googleProvider } from '../../firebase.config';
 import { GoogleAuthProvider, signInWithPopup, User } from 'firebase/auth';
 import Swal from 'sweetalert2';
-import { Button, ContainerRegister, LoadingSpinner, Instructions } from '../../styled-components/auth/auth';
+import { Button, ContainerRegister, LoadingSpinner, Instructions, Container} from '../../styled-components/auth/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
+import GoogleIcon from '@mui/icons-material/Google';
+import { useNavigate } from 'react-router-dom';
+
 
 const SignInWithGoogle = () => {
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSignIn = async () => {
     setLoading(true);
@@ -14,6 +18,7 @@ const SignInWithGoogle = () => {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
       await handleUser(user);
+      navigate('/Admin');
     } catch (error) {
       console.error("Error signing in with Google:", error);
       Swal.fire("Error", "Hubo un problema al iniciar sesión con Google. Inténtalo de nuevo.", "error");
@@ -30,7 +35,7 @@ const SignInWithGoogle = () => {
       await setDoc(userDocRef, {
         email: user.email,
         name: user.displayName,
-        isAdmin: false, 
+        isAdmin: false,
       });
     } else {
       const isAdmin = userDoc.data()?.isAdmin;
@@ -40,10 +45,15 @@ const SignInWithGoogle = () => {
 
   return (
     <ContainerRegister>
-      <Instructions>Inicia sesión con tu cuenta de Google para continuar.</Instructions>
-      <Button onClick={handleSignIn} disabled={loading}>
-        {loading ? <LoadingSpinner /> : 'Registrarse con Google'}
-      </Button>
+      <Container>
+        <Instructions>Inicia sesión con tu cuenta de Google para continuar.</Instructions>
+        <Button onClick={handleSignIn} disabled={loading}>
+          {loading ? <LoadingSpinner /> : <>
+            <GoogleIcon style={{ fontSize: 24 }} />
+            Ingresar con Google
+          </>}
+        </Button>
+      </Container>
     </ContainerRegister>
   );
 };

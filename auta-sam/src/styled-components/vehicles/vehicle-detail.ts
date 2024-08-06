@@ -6,6 +6,7 @@ export const ContainerDetail = styled.div`
   flex-direction: column;
   background-image: url(${vehiclePage});
   background-repeat: no-repeat;
+  background-size: cover; /* Ajusta el fondo para que cubra el contenedor */
   position: absolute;
   top: 0;
   left: 0;
@@ -79,10 +80,15 @@ export const ModalDetail = styled.div`
     width: 100%;
     max-width: 500px;
     height: 300px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     img {
-      width: 80%;
-      height: auto;
+      width: 90%;
+      height: 100%;
+      object-fit: cover; /* Ajusta la imagen para que cubra el contenedor sin distorsionarse */
       border-radius: 8px;
     }
 
@@ -136,6 +142,7 @@ export const ModalDetail = styled.div`
     color: #777;
   }
 `;
+
 export const TopButtons = styled.div`
   display: flex;
   width: 100%;
@@ -153,8 +160,8 @@ export const TopButtons = styled.div`
       scale: 1.2;
     }
   }
+`;
 
-`
 export const Button = styled.div`
   width: 100%;
   height: 50px;

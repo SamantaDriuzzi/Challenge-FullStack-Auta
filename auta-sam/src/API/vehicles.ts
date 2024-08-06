@@ -35,18 +35,20 @@ import { Vehicle, VehicleData, VehicleFilters } from "../interfaces/Ivehicles";
     querySnapshot.forEach((doc) => {
       const data = doc.data();
       if (isVehicleData(data)) {
-        vehicles.push({ id: doc.id, ...data });
+        vehicles.push({  ...data, id: doc.id, });
       }
     });
 
     return vehicles;
   };
-  export const getVehicleById = async (id: string): Promise<VehicleData | null> => {
+  export const getVehicleById = async (id: string): Promise<Vehicle | null> => {
     const vehicleDoc = doc(db, "vehicles", id);
     const docSnap = await getDoc(vehicleDoc);
   
     if (docSnap.exists()) {
-      return docSnap.data() as VehicleData;
+      // Devuelve un objeto con los datos del documento y el id
+      const data = docSnap.data() as VehicleData;
+      return {  ...data, id };
     } else {
       console.log("No such document!");
       return null;
