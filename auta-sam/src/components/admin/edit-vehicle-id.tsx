@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useForm, Controller } from 'react-hook-form';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase.config';
 import { Vehicle } from '../../interfaces/Ivehicles';
-import { Button, Container, ContainerForm, Form, Input, Label } from '../../styled-components/admin/edit-vehicle-id';
+import { Button, Container, ContainerForm, Form, Input, Label, Select, Card, CardTitle, CardContent, TextArea } from '../../styled-components/admin/edit-vehicle-id';
 import Swal from 'sweetalert2';
 
 const EditVehicle: React.FC = () => {
-  const { id } = useParams<{ id: string }>(); // Obtiene el ID del vehículo de la URL
+  const { id } = useParams<{ id: string }>();
   const [vehicle, setVehicle] = useState<Vehicle | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const { control, handleSubmit, setValue } = useForm<Vehicle>();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,7 +28,14 @@ const EditVehicle: React.FC = () => {
         const vehicleSnap = await getDoc(vehicleRef);
 
         if (vehicleSnap.exists()) {
-          setVehicle({ id: vehicleSnap.id, ...vehicleSnap.data() } as Vehicle);
+          const vehicleData = vehicleSnap.data() as Vehicle;
+          setValue('brand', vehicleData.brand);
+          setValue('model', vehicleData.model);
+          setValue('year', vehicleData.year);
+          setValue('description', vehicleData.description);
+          setValue('price', vehicleData.price);
+          setValue('status', vehicleData.status);
+          setVehicle(vehicleData); // Store the vehicle data to show in the card
         } else {
           setError('Vehicle not found');
         }
@@ -38,17 +47,12 @@ const EditVehicle: React.FC = () => {
     };
 
     fetchVehicle();
-  }, [id]);
+  }, [id, setValue]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setVehicle((prevVehicle) => prevVehicle ? { ...prevVehicle, [name]: value } : null);
-  };
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!vehicle || !id) return;
+  const onSubmit = async (data: Vehicle) => {
+    if (!id) return;
 
-    const { brand, model, year, price, status } = vehicle;
+    const { brand, model, year, price, status } = data;
     const updatedVehicle = { brand, model, year, price, status };
 
     try {
@@ -75,58 +79,78 @@ const EditVehicle: React.FC = () => {
   return (
     <Container>
       <ContainerForm>
-
-        <Form onSubmit={handleSubmit}>
+        <Card>
+          <CardTitle>Estás editando este vehículo</CardTitle>
+          {vehicle && (
+            <CardContent>
+              <p><strong>Marca:</strong> {vehicle.brand}</p>
+              <p><strong>Modelo:</strong> {vehicle.model}</p>
+              <p><strong>Año:</strong> {vehicle.year}</p>
+              <p><strong>Precio:</strong> ${vehicle.price}</p>
+              <p><strong>Descripción:</strong> {vehicle.description}</p>
+              <p><strong>Estado:</strong> {vehicle.status === 'available' ? 'Disponible' : 'No disponible'}</p>
+            </CardContent>
+          )}
+        </Card>
+        <Form onSubmit={handleSubmit(onSubmit)}>
           <Label>
             Marca:
-            <Input
-              type="text"
+            <Controller
               name="brand"
-              value={vehicle?.brand || ''}
-              onChange={handleInputChange}
-              required
+              control={control}
+              defaultValue=""
+              render={({ field }) => <Input {...field} required />}
             />
           </Label>
           <Label>
             Modelo:
-            <Input
-              type="text"
+            <Controller
               name="model"
-              value={vehicle?.model || ''}
-              onChange={handleInputChange}
-              required
+              control={control}
+              defaultValue=""
+              render={({ field }) => <Input {...field} required />}
             />
           </Label>
           <Label>
             Año:
-            <Input
-              type="number"
+            <Controller
               name="year"
-              value={vehicle?.year || ''}
-              onChange={handleInputChange}
-              required
+              control={control}
+              defaultValue={0}
+              render={({ field }) => <Input type="number" {...field} required />}
             />
           </Label>
           <Label>
             Precio:
-            <Input
-              type="number"
+            <Controller
               name="price"
-              value={vehicle?.price || ''}
-              onChange={handleInputChange}
-              required
+              control={control}
+              defaultValue={0}
+              render={({ field }) => <Input type="number" {...field} required />}
+            />
+          </Label>
+          <Label>
+            Detalle:
+            <Controller
+              name="description"
+              control={control}
+              defaultValue=""
+              render={({ field }) => <TextArea {...field} rows={4} required />}
             />
           </Label>
           <Label>
             Estado:
-            <Input
-              type="text"
+            <Controller
               name="status"
-              value={vehicle?.status || ''}
-              onChange={handleInputChange}
-              required
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                <Select {...field} required>
+                  <option value="available">Disponible</option>
+                  <option value="not available">No disponible</option>
+                </Select>
+              )}
             />
-            option
           </Label>
           <Button type="submit">Guardar cambios</Button>
         </Form>

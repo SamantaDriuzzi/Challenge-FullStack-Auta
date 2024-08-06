@@ -87,7 +87,7 @@ const VehicleList: React.FC = () => {
               <p><span className="label">Modelo:</span> <span className="value">{vehicle.model}</span></p>
               <p><span className="label">Año:</span> <span className="value">{vehicle.year}</span></p>
               <p><span className="label">Precio:</span> <span className="value">${vehicle.price}</span></p>
-              <p><span className="label">Estado:</span> <span className="value">{vehicle.status}</span></p>
+              <p><span className="label">Estado:</span> <span className="value">{vehicle.status === "available" ? "Disponible" : "No disponible"}</span></p>
             </div>
           </VehicleCard>
         ))}
