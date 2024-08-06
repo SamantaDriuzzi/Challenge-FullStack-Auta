@@ -56,6 +56,7 @@ const VehicleDetail: React.FC = () => {
     }
 
     if (vehicle) {
+      
       try {
         addToCart(vehicle);
         Swal.fire({

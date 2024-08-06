@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import vehiclePageCart from '../../assets/vehiclePageCart.svg';
+import styled from "styled-components";
+import vehiclePageCart from "../../assets/vehiclePageCart.svg";
 
 export const ContainerCart = styled.div`
   display: flex;
@@ -17,6 +17,7 @@ export const ContainerCart = styled.div`
   padding: 20px;
   box-sizing: border-box;
   padding-bottom: 100px;
+  justify-content: space-between;
 
   h1 {
     margin-top: 150px;
@@ -41,13 +42,24 @@ export const ContainerCart = styled.div`
     }
   }
 `;
-
+export const ContainerTitle = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 200px;
+  margin-bottom: 50px;
+  gap: 20px;
+  font-family: var(--font-family);
+  color: var(--color-primary);
+  font-weight: bold;
+  font-size: 24px;
+`;
 export const ContainerCartItems = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
   box-sizing: border-box;
-  margin-top: 200px; /* Margen superior significativo */
 
   @media (max-width: 768px) {
     margin-top: 150px;
@@ -212,7 +224,6 @@ export const CartItemsWrapper = styled.div`
   @media (max-width: 768px) {
     width: 100%;
     margin-right: 0;
-   
   }
 `;
 
@@ -222,7 +233,7 @@ export const CartSummaryWrapper = styled.div`
   align-items: center;
   width: 30%;
   max-width: 300px;
-  justify-content: center;
+  justify-content: flex-start;
 
   @media (max-width: 768px) {
     width: 100%;

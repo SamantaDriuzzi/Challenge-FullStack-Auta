@@ -32,6 +32,8 @@ const VehicleList: React.FC = () => {
         ...doc.data(),
       })) as Vehicle[];
       setVehicles(vehiclesData);
+      console.log('Vehicles data: de firebase', vehiclesData);
+      
       setLoading(false);
     }, (error) => {
       setError('Failed to fetch vehicles');
