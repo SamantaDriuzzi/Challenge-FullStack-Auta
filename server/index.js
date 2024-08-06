@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import { MercadoPagoConfig, Preference } from "mercadopago";
 
 dotenv.config();
 
@@ -9,6 +10,32 @@ const port = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
+
+const client = new MercadoPagoConfig({ accessToken: process.env.ACCESS_TOKEN });
+
+app.post("/create_preference", async (req, res) => {
+  const body = {
+    items: req.body.map((vehicle) => ({
+      title: vehicle.brand,
+      quantity: 1,
+      unit_price: Number(vehicle.price),
+      currency_id: "ARS",
+    })),
+    back_urls: {
+      success: "http://localhost:3000/success",
+      failure: "http://localhost:3000/failure",
+      pending: "http://localhost:3000/pending",
+    },
+    auto_return: "approved"
+  }
+    
+    try {
+      const response = await new Preference(client).create({ body });
+      res.json({redirectUrl: response.init_point});
+    } catch (error) {
+        res.status(500).json({error: error.message});
+    }
+});
 
 app.listen(port, () => {
     console.log("Servidor corriendo en el puerto:", port);
