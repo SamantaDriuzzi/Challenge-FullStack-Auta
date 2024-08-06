@@ -9,25 +9,50 @@ import { signOutGoogle } from '../../utils/singOut';
 import { CloseButton, ContainerModal, Icon, ModalContent } from '../../styled-components/navbar/navModal';
 import Swal from 'sweetalert2';
 
+
 function Navbar() {
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const handleSignOut = async () => {
-    await signOutGoogle();
-    Swal.fire({
-      title: 'Éxito',
-      text: 'Sesión cerrada correctamente',
-      icon: 'success',
-      confirmButtonText: 'Aceptar'
+    const result = await Swal.fire({
+      title: '¿Estás seguro de cerrar sesión?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, cerrar sesión',
+      cancelButtonText: 'Cancelar'
     });
-    setTimeout(() => {
-      window.location.href = '/';
-    }, 2000);
-    handleClose();
+  
+    if (result.isConfirmed) {
+      try {
+        await signOutGoogle();
+  
+        await Swal.fire({
+          title: 'Éxito',
+          text: 'Sesión cerrada correctamente',
+          icon: 'success',
+          confirmButtonText: 'Aceptar'
+        });
+  
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 2000);
+  
+        handleClose();
+      } catch (error) {
+        Swal.fire({
+          title: 'Error',
+          text: 'Hubo un problema al cerrar sesión. Inténtalo nuevamente.',
+          icon: 'error',
+          confirmButtonText: 'Aceptar'
+        });
+      }
+    }
   };
 
   const handleSignOutClick = () => {
@@ -77,7 +102,7 @@ function Navbar() {
           <FaUserCircle size={42} />
         </Icon>
       </NavStart>
-      
+
       <ul>
         {secciones.map((seccion) =>
           seccion.condition ? (
@@ -87,16 +112,16 @@ function Navbar() {
           ) : null
         )}
       </ul>
-     
+
       <Modal open={open} onClose={handleClose}>
         <ContainerModal>
           <ModalContent>
-           <CloseButton onClick={handleClose}>X</CloseButton>
+            <CloseButton onClick={handleClose}>X</CloseButton>
             {user ? (
               <>
                 <Button onClick={handleCart}>Ver carrito</Button>
                 <Button onClick={handleSignOut}>Cerrar sesión</Button>
-                <Button onClick={handleAdmin}>Panel Admin</Button>
+                {isAdmin ? <Button onClick={handleAdmin}>Panel Admin</Button> : null}
                 <Button onClick={() => window.location.href = '/Favoritos'}>Ver Favoritos</Button>
               </>
             ) : (

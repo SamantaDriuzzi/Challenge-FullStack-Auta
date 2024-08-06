@@ -15,6 +15,7 @@ import AdminVehicleList from './components/admin/admin-vehicles-list';
 import EditVehicle from './components/admin/edit-vehicle-id';
 import ProtectedRoute from './components/protectedRoute/protectedRoute';
 import Favorites from './components/favorites/favorites';
+import SuccessPage from './views/success';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Route path="/Admin/editVehicleList" element={<ProtectedRoute element={<AdminVehicleList />} admin />} />
         <Route path="/Admin/editVehicle/:id" element={<ProtectedRoute element={<EditVehicle />} admin />} />
         <Route path="/Favoritos" element={<Favorites />} />
+        <Route path="/success" element={<SuccessPage />} />
 
       </Routes>
     </Router>

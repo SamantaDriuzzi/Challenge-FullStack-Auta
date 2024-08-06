@@ -20,6 +20,7 @@ export const ModalContent = styled.div`
   gap: 20px;
   top: 100px;
   right: 40px;
+  border: none;
 `;
 
 export const Icon = styled.div`
