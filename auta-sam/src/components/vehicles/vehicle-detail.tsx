@@ -1,12 +1,14 @@
+// VehicleDetail.tsx
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getVehicleById } from '../../API/vehicles';
 import { VehicleData } from '../../interfaces/Ivehicles';
-import { Button, ContainerDetail, ModalDetail } from '../../styled-components/vehicles/vehicle-detail';
+import { Button, ContainerDetail, ModalDetail, TopButtons } from '../../styled-components/vehicles/vehicle-detail';
 import { useCart } from '../../context/cart';
 import Swal from 'sweetalert2';
 import { useAuth } from '../../context/auth';
-import Cart from '../cart/cart';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const capitalizeFirstLetter = (string: string): string => {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -17,8 +19,9 @@ const VehicleDetail: React.FC = () => {
   const [vehicle, setVehicle] = useState<VehicleData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const { addToCart, cart } = useCart();
-  const { user } = useAuth();
+  const { addToCart } = useCart();
+  const { user, toggleFavorite, favorites } = useAuth();
+  const [isFavoriteIcon, setIsFavoriteIcon] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchVehicle = async () => {
@@ -27,7 +30,6 @@ const VehicleDetail: React.FC = () => {
       try {
         const vehicleData = await getVehicleById(id!);
         setVehicle(vehicleData);
-        console.log("🚗 data del auto por el ID", vehicleData);
       } catch (err) {
         setError('Failed to fetch vehicle details');
       } finally {
@@ -63,7 +65,6 @@ const VehicleDetail: React.FC = () => {
           confirmButtonText: 'Aceptar'
         });
       } catch (error) {
-        console.error(error);
         Swal.fire({
           title: 'Error',
           text: 'Hubo un problema al agregar el vehículo al carrito',
@@ -73,15 +74,36 @@ const VehicleDetail: React.FC = () => {
       }
     }
   };
-   const seeCartContext = () => {
-    console.log("Se agrega auto a cart si o no?", cart);
-    
-   }
+
+  const isFavorite = favorites.includes(vehicle.id!);
+
+
+
+  const handleToggleFavorite = () => {
+    if (!user) {
+      Swal.fire({
+        title: 'Acceso denegado',
+        text: 'Debes estar registrado para agregar vehículos a favoritos',
+        icon: 'warning',
+        confirmButtonText: 'Aceptar'
+      });
+      return;
+    }
+    if (id) {
+      toggleFavorite(id);
+      setIsFavoriteIcon(!isFavoriteIcon);
+    }
+  };
 
   return (
     <ContainerDetail>
       <ModalDetail>
-        <button onClick={() => window.history.back()}>Volver</button>
+        <TopButtons>
+          <button onClick={() => window.history.back()}>Volver</button>
+          <button  className="favorite-button" onClick={handleToggleFavorite}>
+            {isFavoriteIcon ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+          </button>
+        </TopButtons>
         <h1>{capitalizeFirstLetter(vehicle.brand)} {capitalizeFirstLetter(vehicle.model)}</h1>
         <div className='image-container'>
           <img src={vehicle.imageURL} alt={`${vehicle.brand} ${vehicle.model}`} />
@@ -97,8 +119,9 @@ const VehicleDetail: React.FC = () => {
           <p><span className="label">Precio:</span> <span className="value">${vehicle.price}</span></p>
         </div>
         <Button>
-          <button onClick={handleAddToCart}>Comprar</button>
+          <button onClick={handleAddToCart}>Reservar</button>
         </Button>
+
       </ModalDetail>
     </ContainerDetail>
   );
