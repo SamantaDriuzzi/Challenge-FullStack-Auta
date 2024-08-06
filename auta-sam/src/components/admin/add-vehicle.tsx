@@ -1,10 +1,10 @@
-// src/components/AddVehicleForm.tsx
 import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { collection, addDoc } from 'firebase/firestore';
 import { Vehicle } from '../../interfaces/Ivehicles';
 import { db, storage } from '../../firebase.config';
+import { Button, ErrorMessage, Form, SectionAdmin, ContainerForm, Title } from '../../styled-components/admin/add-vehicle';
 
 const AddVehicleForm: React.FC = () => {
   const { control, handleSubmit, formState: { errors } } = useForm<Vehicle>();
@@ -31,9 +31,14 @@ const AddVehicleForm: React.FC = () => {
         imageUrl = await getDownloadURL(storageRef);
       }
 
+      // Convert status to 'available' or 'not available'
+      const status = data.status === 'Disponible' ? 'available' : 'not available';
+
       // Add vehicle data to Firestore
       const newVehicle: Vehicle = {
-        ...data, imageURL: imageUrl
+        ...data,
+        status, // Save converted status
+        imageURL: imageUrl
       };
 
       await addDoc(collection(db, 'vehicles'), newVehicle);
@@ -47,75 +52,98 @@ const AddVehicleForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label>Brand:</label>
-        <Controller
-          name="brand"
-          control={control}
-          defaultValue=""
-          rules={{ required: 'Brand is required' }}
-          render={({ field }) => <input {...field} />}
-        />
-        {errors.brand && <p>{errors.brand.message}</p>}
-      </div>
+    <SectionAdmin>
+      <ContainerForm>
+        <Title>Agrega un vehículo en la tienda:</Title>
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <div>
+            <label>Brand:</label>
+            <Controller
+              name="brand"
+              control={control}
+              defaultValue=""
+              rules={{ required: 'Brand is required' }}
+              render={({ field }) => <input {...field} />}
+            />
+            {errors.brand && <ErrorMessage>{errors.brand.message}</ErrorMessage>}
+          </div>
 
-      <div>
-        <label>Model:</label>
-        <Controller
-          name="model"
-          control={control}
-          defaultValue=""
-          rules={{ required: 'Model is required' }}
-          render={({ field }) => <input {...field} />}
-        />
-        {errors.model && <p>{errors.model.message}</p>}
-      </div>
+          <div>
+            <label>Modelo:</label>
+            <Controller
+              name="model"
+              control={control}
+              defaultValue=""
+              rules={{ required: 'Model is required' }}
+              render={({ field }) => <input {...field} />}
+            />
+            {errors.model && <ErrorMessage>{errors.model.message}</ErrorMessage>}
+          </div>
 
-      <div>
-        <label>Year:</label>
-        <Controller
-          name="year"
-          control={control}
-          defaultValue={0}
-          rules={{ required: 'Year is required' }}
-          render={({ field }) => <input type="number" {...field} />}
-        />
-        {errors.year && <p>{errors.year.message}</p>}
-      </div>
+          <div>
+            <label>Año:</label>
+            <Controller
+              name="year"
+              control={control}
+              defaultValue={0}
+              rules={{ required: 'Year is required' }}
+              render={({ field }) => <input type="number" {...field} />}
+            />
+            {errors.year && <ErrorMessage>{errors.year.message}</ErrorMessage>}
+          </div>
 
-      <div>
-        <label>Price:</label>
-        <Controller
-          name="price"
-          control={control}
-          defaultValue={0}
-          rules={{ required: 'Price is required' }}
-          render={({ field }) => <input type="number" {...field} />}
-        />
-        {errors.price && <p>{errors.price.message}</p>}
-      </div>
+          <div>
+            <label>Descripción:</label>
+            <Controller
+              name="description"
+              control={control}
+              defaultValue=""
+              rules={{ required: 'Description is required' }}
+              render={({ field }) => <input type="text" {...field} />}
+            />
+            {errors.description && <ErrorMessage>{errors.description.message}</ErrorMessage>}
+          </div>
 
-      <div>
-        <label>Status:</label>
-        <Controller
-          name="status"
-          control={control}
-          defaultValue=""
-          rules={{ required: 'Status is required' }}
-          render={({ field }) => <input {...field} />}
-        />
-        {errors.status && <p>{errors.status.message}</p>}
-      </div>
+          <div>
+            <label>Precio:</label>
+            <Controller
+              name="price"
+              control={control}
+              defaultValue={0}
+              rules={{ required: 'Price is required' }}
+              render={({ field }) => <input type="number" {...field} />}
+            />
+            {errors.price && <ErrorMessage>{errors.price.message}</ErrorMessage>}
+          </div>
 
-      <div>
-        <label>Image:</label>
-        <input type="file" onChange={handleFileChange} />
-      </div>
+          <div>
+            <label>Estado:</label>
+            <Controller
+              name="status"
+              control={control}
+              defaultValue="Disponible"
+              rules={{ required: 'Status is required' }}
+              render={({ field }) => (
+                <select {...field}>
+                  <option value="Disponible">Disponible</option>
+                  <option value="No disponible">No disponible</option>
+                </select>
+              )}
+            />
+            {errors.status && <ErrorMessage>{errors.status.message}</ErrorMessage>}
+          </div>
 
-      <button type="submit" disabled={loading}>Add Vehicle</button>
-      {error && <p>{error}</p>}
-    </form>
+          <div>
+            <label>Imágen:</label>
+            <input type="file" onChange={handleFileChange} />
+          </div>
+
+          <Button type="submit" disabled={loading}>Agregar Vehículo</Button>
+          {error && <ErrorMessage>{error}</ErrorMessage>}
+        </Form>
+      </ContainerForm>
+
+    </SectionAdmin>
   );
 };
 

@@ -1,12 +1,11 @@
-import styled from 'styled-components';
-import vehiclePage from '../../assets/vehiclePage.svg';
+import styled from "styled-components";
+import vehiclePage from "../../assets/vehiclePage.svg";
 
 export const ContainerDetail = styled.div`
   display: flex;
   flex-direction: column;
   background-image: url(${vehiclePage});
-  background-position: center;
-  background-size: cover;
+  background-repeat: no-repeat;
   position: absolute;
   top: 0;
   left: 0;
@@ -18,25 +17,30 @@ export const ContainerDetail = styled.div`
   box-sizing: border-box;
   padding-bottom: 100px;
 
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
 `;
 
 export const ModalDetail = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-top: calc(100vh - 200px);
+  margin-top: calc(100vh - 250px);
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 20px;
   width: 100%;
   max-width: 800px;
   background-color: #fff;
-  text-align: center; 
+  text-align: center;
   align-items: center;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 
   @media (max-width: 768px) {
-    width: 100%;
+    margin-top: 20px;
+    padding: 10px;
+    width: 90%;
   }
 
   button {
@@ -53,23 +57,38 @@ export const ModalDetail = styled.div`
     &:hover {
       background: #0056b3;
     }
+
+    @media (max-width: 768px) {
+      align-self: center;
+      padding: 8px 16px;
+      font-size: 12px;
+    }
   }
 
   h1 {
     margin: 20px 0;
     font-size: 32px;
     color: #333;
+
+    @media (max-width: 768px) {
+      font-size: 24px;
+    }
   }
-  
+
   .image-container {
     width: 100%;
-    max-width: 600px;
-    height: 400px;
+    max-width: 500px;
+    height: 300px;
 
     img {
-      width: 100%;
+      width: 80%;
       height: auto;
       border-radius: 8px;
+    }
+
+    @media (max-width: 768px) {
+      width: 100%;
+      height: auto;
     }
   }
 
@@ -80,18 +99,32 @@ export const ModalDetail = styled.div`
     width: 100%;
     max-width: 400px;
     margin-bottom: 20px;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: center;
+    }
   }
+
   .description {
     display: flex;
     flex-direction: column;
     width: 100%;
     max-width: 400px;
+
+    @media (max-width: 768px) {
+      align-items: center;
+    }
   }
 
   p {
     margin: 8px 0;
     font-size: 16px;
     color: #333;
+
+    @media (max-width: 768px) {
+      font-size: 14px;
+    }
   }
 
   .label {
@@ -103,6 +136,7 @@ export const ModalDetail = styled.div`
     color: #777;
   }
 `;
+
 export const Button = styled.div`
   width: 100%;
   height: 50px;
@@ -125,6 +159,10 @@ export const Button = styled.div`
     &:hover {
       background: var(--color-tertiary);
     }
+
+    @media (max-width: 768px) {
+      font-size: 14px;
+      padding: 8px 16px;
+    }
   }
-  
 `;

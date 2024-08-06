@@ -10,6 +10,7 @@ import { Vehicle, VehicleData, VehicleFilters } from "../interfaces/Ivehicles";
       typeof data.brand === 'string' &&
       typeof data.model === 'string' &&
       typeof data.year === 'number' &&
+      typeof data.description === 'string' &&
       typeof data.price === 'number' &&
       typeof data.status === 'string'
     );

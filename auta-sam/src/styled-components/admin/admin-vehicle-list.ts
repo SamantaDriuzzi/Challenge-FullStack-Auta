@@ -128,7 +128,30 @@ const NoVehiclesMessage = styled.p`
   text-align: center;
   margin-top: 50px;
 `;
+export const Button = styled.button`
+  margin-top: 20px;
+  background: var(--color-primary);
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s; 
+  width: 100%;
+  height: 50px;
 
+  &:hover {
+    background: var(--color-tertiary);
+    color: var(--family-color-secondary);
+  }
+
+  &:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+`
 export {
   Container,
   ContainerFilters,
