@@ -5,7 +5,7 @@ import Logo from '../../assets/logoAuta.png';
 import { Modal, Button } from '@mui/material';
 import { FaUserCircle } from 'react-icons/fa';
 import { useAuth } from '../../context/auth';
-import { handleSignOut } from '../../utils/singOut';
+import { signOutGoogle } from '../../utils/singOut';
 import { CloseButton, ContainerModal, Icon, ModalContent } from '../../styled-components/navbar/navModal';
 import Swal from 'sweetalert2';
 
@@ -16,8 +16,8 @@ function Navbar() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const handleSignOutClick = async () => {
-    await handleSignOut();
+  const handleSignOut = async () => {
+    await signOutGoogle();
     Swal.fire({
       title: 'Éxito',
       text: 'Sesión cerrada correctamente',
@@ -30,7 +30,7 @@ function Navbar() {
     handleClose();
   };
 
-  const handleSignOut = () => {
+  const handleSignOutClick = () => {
     Swal.fire({
       title: '¿Estás seguro de cerrar sesión?',
       icon: 'warning',
