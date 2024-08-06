@@ -3,7 +3,7 @@
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase.config'; // Asegúrate de importar desde tu archivo firebase.config
 
-export const handleSignOut = async () => {
+export const signOutGoogle = async () => {
   try {
     await signOut(auth);
     console.log('User signed out successfully');
