@@ -27,14 +27,12 @@ const SignInWithGoogle = () => {
     const userDoc = await getDoc(userDocRef);
 
     if (!userDoc.exists()) {
-      // Si el usuario no existe en Firestore, crear un nuevo documento
       await setDoc(userDocRef, {
         email: user.email,
         name: user.displayName,
-        isAdmin: false, // Aquí puedes establecer si el nuevo usuario es administrador o no
+        isAdmin: false, 
       });
     } else {
-      // Si el usuario ya existe, puedes verificar el campo isAdmin si lo necesitas
       const isAdmin = userDoc.data()?.isAdmin;
       console.log(`Usuario ${isAdmin ? "es" : "no es"} administrador`);
     }

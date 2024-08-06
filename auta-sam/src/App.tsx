@@ -13,6 +13,7 @@ import AddVehicleForm from './components/admin/add-vehicle';
 import { PanelAdmin } from './components/admin/panel';
 import AdminVehicleList from './components/admin/admin-vehicles-list';
 import EditVehicle from './components/admin/edit-vehicle-id';
+import ProtectedRoute from './components/protectedRoute/protectedRoute';
 
 function App() {
   return (
@@ -25,13 +26,13 @@ function App() {
         <Route path="/vehicle/:id" element={<VehicleDetail />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/Ingresar" element={<SignInWithGoogle />} />
-        <Route path="/Admin" element={<PanelAdmin />} />
-        <Route path="/Admin/addVehicle" element={<AddVehicleForm />} />
-        <Route path="/Admin/editVehicleList" element={<AdminVehicleList />} />
-        <Route path="/Admin/editVehicle/:id" element={<EditVehicle />} />
+        <Route path="/Admin" element={<ProtectedRoute element={<PanelAdmin />} admin />} />
+        <Route path="/Admin/addVehicle" element={<ProtectedRoute element={<AddVehicleForm />} admin />} />
+        <Route path="/Admin/editVehicleList" element={<ProtectedRoute element={<AdminVehicleList />} admin />} />
+        <Route path="/Admin/editVehicle/:id" element={<ProtectedRoute element={<EditVehicle />} admin />} />
 
       </Routes>
-    </Router> 
+    </Router>
   );
 }
 
