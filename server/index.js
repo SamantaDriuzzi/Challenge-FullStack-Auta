@@ -11,7 +11,9 @@ const port = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-const client = new MercadoPagoConfig({ accessToken: process.env.ACCESS_TOKEN });
+const ACCESS_TOKEN = process.env.ACCESS_TOKEN;
+
+const client = new MercadoPagoConfig({ accessToken: ACCESS_TOKEN });
 
 app.post("/create_preference", async (req, res) => {
   const body = {
