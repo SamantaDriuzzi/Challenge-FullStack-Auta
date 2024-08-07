@@ -22,9 +22,9 @@ app.post("/create_preference", async (req, res) => {
       currency_id: "ARS",
     })),
     back_urls: {
-      success: "http://localhost:3000/success",
-      failure: "http://localhost:3000/failure",
-      pending: "http://localhost:3000/pending",
+      success: "https://challenge-fullstack-auta.vercel.app/success",
+      failure: "https://challenge-fullstack-auta.vercel.app/failure",
+      pending: "https://challenge-fullstack-auta.vercel.app/pending",
     },
     auto_return: "approved"
   }
