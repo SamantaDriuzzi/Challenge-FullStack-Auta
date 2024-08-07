@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { getVehicleById } from '../../API/vehicles';
 import { useAuth } from '../../context/auth';
 import { db } from '../../firebase.config';
-import { Vehicle, VehicleData } from '../../interfaces/Ivehicles';
+import { VehicleData } from '../../interfaces/Ivehicles';
 import { Car, ContainerCar, ContainerTitle, FavoritePage } from '../../styled-components/favarites/favortes';
 
 const Favorites: React.FC = () => {

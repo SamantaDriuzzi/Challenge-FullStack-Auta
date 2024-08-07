@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ElementNull, ImgContainer, NavContainer, NavStart } from '../../styled-components/navbar/NavContainer';
 import Logo from '../../assets/logoAuta.png';
@@ -55,21 +55,6 @@ function Navbar() {
     }
   };
 
-  const handleSignOutClick = () => {
-    Swal.fire({
-      title: '¿Estás seguro de cerrar sesión?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, cerrar sesión',
-      cancelButtonText: 'Cancelar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        handleSignOutClick();
-      }
-    });
-  };
 
   const handleSignIn = () => {
     window.location.href = '/Ingresar';

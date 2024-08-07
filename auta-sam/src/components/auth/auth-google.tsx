@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { auth, db, googleProvider } from '../../firebase.config';
-import { GoogleAuthProvider, signInWithPopup, User } from 'firebase/auth';
+import {  signInWithPopup, User } from 'firebase/auth';
 import Swal from 'sweetalert2';
 import { Button, ContainerRegister, LoadingSpinner, Instructions, Container} from '../../styled-components/auth/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
@@ -18,7 +18,7 @@ const SignInWithGoogle = () => {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
       await handleUser(user);
-      navigate('/Admin');
+      navigate('/Autos');
     } catch (error) {
       console.error("Error signing in with Google:", error);
       Swal.fire("Error", "Hubo un problema al iniciar sesión con Google. Inténtalo de nuevo.", "error");

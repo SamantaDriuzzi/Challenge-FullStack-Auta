@@ -20,7 +20,7 @@ const VehicleDetail: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const { addToCart } = useCart();
-  const { user, toggleFavorite, favorites } = useAuth();
+  const { user, toggleFavorite } = useAuth();
   const [isFavoriteIcon, setIsFavoriteIcon] = useState<boolean>(false);
 
   useEffect(() => {
@@ -75,8 +75,6 @@ const VehicleDetail: React.FC = () => {
       }
     }
   };
-
-  const isFavorite = favorites.includes(vehicle.id!);
 
 
 
