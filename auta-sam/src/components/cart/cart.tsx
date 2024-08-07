@@ -10,7 +10,7 @@ const Cart: React.FC = () => {
   const createPreference = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3001/create_preference",
+        "https://challenge-fullstack-auta-server.vercel.app/create_preference",
         cart
       );
       const { redirectUrl } = response.data;
