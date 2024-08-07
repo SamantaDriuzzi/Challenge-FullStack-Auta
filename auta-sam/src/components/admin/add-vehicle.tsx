@@ -5,6 +5,7 @@ import { collection, addDoc } from 'firebase/firestore';
 import { Vehicle } from '../../interfaces/Ivehicles';
 import { db, storage } from '../../firebase.config';
 import { Button, ErrorMessage, Form, SectionAdmin, ContainerForm, Title } from '../../styled-components/admin/add-vehicle';
+import Swal from 'sweetalert2';
 
 const AddVehicleForm: React.FC = () => {
   const { control, handleSubmit, formState: { errors } } = useForm<Vehicle>();
@@ -42,9 +43,11 @@ const AddVehicleForm: React.FC = () => {
       };
 
       await addDoc(collection(db, 'vehicles'), newVehicle);
-      alert('Vehicle added successfully');
+      Swal.fire('Éxito', 'Vehículo agregado correctamente', 'success');
+      
     } catch (err) {
       setError('Failed to add vehicle');
+      
       console.error(err);
     } finally {
       setLoading(false);
