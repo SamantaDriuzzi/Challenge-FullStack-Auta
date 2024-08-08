@@ -1,21 +1,22 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ElementNull, ImgContainer, NavContainer, NavStart } from '../../styled-components/navbar/NavContainer';
+import { ElementNull, ImgContainer, NavContainer, NavStart, BurgerMenu } from '../../styled-components/navbar/NavContainer';
 import Logo from '../../assets/logoAuta.png';
 import { Modal, Button } from '@mui/material';
-import { FaUserCircle } from 'react-icons/fa';
+import { FaUserCircle, FaBars, FaTimes } from 'react-icons/fa';
 import { useAuth } from '../../context/auth';
 import { signOutGoogle } from '../../utils/singOut';
 import { CloseButton, ContainerModal, Icon, ModalContent } from '../../styled-components/navbar/navModal';
 import Swal from 'sweetalert2';
 
-
 function Navbar() {
   const { user, isAdmin } = useAuth();
   const [open, setOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const toggleMenu = () => setMenuOpen(!menuOpen);
 
   const handleSignOut = async () => {
     const result = await Swal.fire({
@@ -27,22 +28,22 @@ function Navbar() {
       confirmButtonText: 'Sí, cerrar sesión',
       cancelButtonText: 'Cancelar'
     });
-  
+
     if (result.isConfirmed) {
       try {
         await signOutGoogle();
-  
+
         await Swal.fire({
           title: 'Éxito',
           text: 'Sesión cerrada correctamente',
           icon: 'success',
           confirmButtonText: 'Aceptar'
         });
-  
+
         setTimeout(() => {
           window.location.href = '/';
         }, 2000);
-  
+
         handleClose();
       } catch (error) {
         Swal.fire({
@@ -55,7 +56,6 @@ function Navbar() {
     }
   };
 
-
   const handleSignIn = () => {
     window.location.href = '/Ingresar';
   }
@@ -63,6 +63,7 @@ function Navbar() {
   const handleCart = () => {
     window.location.href = '/cart';
   }
+
   const handleAdmin = () => {
     window.location.href = '/Admin';
   }
@@ -72,7 +73,7 @@ function Navbar() {
     { label: 'Automóviles', path: '/Autos', condition: true },
     { label: 'Contacto', path: '/Contacto', condition: true },
     { label: 'Ingresar', path: '/Ingresar', condition: !user },
-    { label: 'Panel Admin', path: '/Admin', condition: !user },
+    { label: 'Panel Admin', path: '/Admin', condition: !!user },
     { label: 'Favoritos', path: '/favoritos', condition: !!user }
   ];
 
@@ -86,9 +87,12 @@ function Navbar() {
         <Icon onClick={handleOpen}>
           <FaUserCircle size={42} />
         </Icon>
+        <BurgerMenu onClick={toggleMenu}>
+          {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+        </BurgerMenu>
       </NavStart>
 
-      <ul>
+      <ul className={menuOpen ? 'active' : ''}>
         {secciones.map((seccion) =>
           seccion.condition ? (
             <li key={seccion.label}>

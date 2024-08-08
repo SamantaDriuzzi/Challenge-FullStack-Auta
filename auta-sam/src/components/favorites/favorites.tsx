@@ -53,6 +53,7 @@ const Favorites: React.FC = () => {
   return (
     <FavoritePage>
       <ContainerTitle>TUS FAVORITOS:</ContainerTitle>
+      {favorites.length === 0 && <div>🚙 ¡Aún no hay vehículos favoritos! </div>}
       <ContainerCar>
         {favorites.map((vehicle, index) => (
           vehicle ? ( 
