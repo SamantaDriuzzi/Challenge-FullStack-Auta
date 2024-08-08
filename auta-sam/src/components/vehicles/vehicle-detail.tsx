@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import { useAuth } from '../../context/auth';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import Loading from '../loading/loading';
 
 const capitalizeFirstLetter = (string: string): string => {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -40,15 +41,14 @@ const VehicleDetail: React.FC = () => {
     fetchVehicle();
   }, [id]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <div><Loading /></div>;
   if (error) return <p>{error}</p>;
   if (!vehicle) return <p>Vehicle not found</p>;
 
   const handleAddToCart = () => {
     if (!user) {
       Swal.fire({
-        title: 'Acceso denegado',
-        text: 'Debes estar registrado para agregar vehículos al carrito',
+        text: '¡Registrate para agregar vehículos al carrito!',
         icon: 'warning',
         confirmButtonText: 'Aceptar'
       });
@@ -61,14 +61,14 @@ const VehicleDetail: React.FC = () => {
         addToCart(vehicle);
         Swal.fire({
           title: 'Éxito',
-          text: 'Vehículo agregado al carrito',
+          text: 'Vehículo agregado a "Tus reservas"',
           icon: 'success',
           confirmButtonText: 'Aceptar'
         });
       } catch (error) {
         Swal.fire({
           title: 'Error',
-          text: 'Hubo un problema al agregar el vehículo al carrito',
+          text: 'Hubo un problema al agregar el vehículo a tus reservas',
           icon: 'error',
           confirmButtonText: 'Aceptar'
         });
@@ -81,8 +81,7 @@ const VehicleDetail: React.FC = () => {
   const handleToggleFavorite = () => {
     if (!user) {
       Swal.fire({
-        title: 'Acceso denegado',
-        text: 'Debes estar registrado para agregar vehículos a favoritos',
+        text: '¡Registrate para agregar vehículos a favoritos!',
         icon: 'warning',
         confirmButtonText: 'Aceptar'
       });
@@ -90,7 +89,25 @@ const VehicleDetail: React.FC = () => {
     }
     if (id) {
       toggleFavorite(id);
+
+      if (isFavoriteIcon) {
+        Swal.fire({
+          title: 'Éxito',
+          text: 'Vehículo quitado de favoritos',
+          icon: 'success',
+          confirmButtonText: 'Aceptar'
+        });
+      } else {
+        Swal.fire({
+          title: 'Éxito',
+          text: 'Vehículo agregado a favoritos',
+          icon: 'success',
+          confirmButtonText: 'Aceptar'
+        });
+      }
+
       setIsFavoriteIcon(!isFavoriteIcon);
+
     }
   };
 

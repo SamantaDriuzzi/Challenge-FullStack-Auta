@@ -68,4 +68,9 @@ export const Car = styled.div`
     text-align: center;
   
   }
+  &:hover {
+    cursor: pointer;
+    scale: 1.05;
+    transition: all 0.3s ease;
+  }
 `

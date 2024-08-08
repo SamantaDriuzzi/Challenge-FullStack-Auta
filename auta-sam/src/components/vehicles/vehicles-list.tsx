@@ -3,7 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { collection, onSnapshot, QuerySnapshot, DocumentData, query, where } from 'firebase/firestore';
 import { db } from '../../firebase.config';
 import { Vehicle, VehicleFilters } from '../../interfaces/Ivehicles';
-import { Container, ContainerFilters, ContainerVehicles, Input, Label, NoVehiclesMessage, VehicleCard } from '../../styled-components/vehicles/vehicles-list';
+import { Container, ContainerFilters, ContainerVehicles, ContainerImage, Input, Label, NoVehiclesMessage, VehicleCard } from '../../styled-components/vehicles/vehicles-list';
+import Loading from '../loading/loading';
+
 
 const VehicleList: React.FC = () => {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
@@ -33,7 +35,7 @@ const VehicleList: React.FC = () => {
       })) as Vehicle[];
       setVehicles(vehiclesData);
       console.log('Vehicles data: de firebase', vehiclesData);
-      
+
       setLoading(false);
     }, (error) => {
       setError('Failed to fetch vehicles');
@@ -78,12 +80,14 @@ const VehicleList: React.FC = () => {
         </Label>
       </ContainerFilters>
       <ContainerVehicles>
-        {loading && <p>Loading vehicles...</p>}
+        {loading && <div><Loading /></div>}
         {error && <p>{error}</p>}
         {!loading && !error && vehicles.length === 0 && <NoVehiclesMessage>No vehicles found</NoVehiclesMessage>}
         {vehicles.map((vehicle) => (
           <VehicleCard key={vehicle.id} onClick={() => handleCardClick(vehicle.id)}>
-            <img src={vehicle.imageURL} alt={`${vehicle.brand} ${vehicle.model}`} />
+            <ContainerImage>
+              <img src={vehicle.imageURL} alt={`${vehicle.brand} ${vehicle.model}`} />
+            </ContainerImage>
             <div className="details">
               <p><span className="label">Marca:</span> <span className="value">{vehicle.brand}</span></p>
               <p><span className="label">Modelo:</span> <span className="value">{vehicle.model}</span></p>

@@ -4,6 +4,7 @@ import { collection, onSnapshot, QuerySnapshot, DocumentData, query, where, doc,
 import { db } from '../../firebase.config';
 import { Vehicle, VehicleFilters } from '../../interfaces/Ivehicles';
 import { Container, ContainerFilters, ContainerVehicles, Input, Label, NoVehiclesMessage, VehicleCard, Button } from '../../styled-components/admin/admin-vehicle-list';
+import Loading from '../loading/loading';
 
 const AdminVehicleList: React.FC = () => {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
@@ -60,7 +61,6 @@ const AdminVehicleList: React.FC = () => {
       const updatedStatus = vehicle ? (vehicle.status === 'available' ? 'not available' : 'available') : 'not available';
       await updateDoc(vehicleRef, { status: updatedStatus });
 
-      // Actualizar el estado local para reflejar el cambio inmediatamente
       setVehicles((prevVehicles) => 
         prevVehicles.map(v => 
           v.id === id ? { ...v, status: updatedStatus } : v
@@ -76,7 +76,6 @@ const AdminVehicleList: React.FC = () => {
       const vehicleRef = doc(db, 'vehicles', id);
       await deleteDoc(vehicleRef);
 
-      // Actualizar el estado local para reflejar el cambio inmediatamente
       setVehicles((prevVehicles) => 
         prevVehicles.filter(v => v.id !== id)
       );
@@ -108,7 +107,7 @@ const AdminVehicleList: React.FC = () => {
         </Label>
       </ContainerFilters>
       <ContainerVehicles>
-        {loading && <p>Loading vehicles...</p>}
+        {loading && <div><Loading /></div>}
         {error && <p>{error}</p>}
         {!loading && !error && vehicles.length === 0 && <NoVehiclesMessage>No vehicles found</NoVehiclesMessage>}
         {vehicles.map((vehicle) => (
