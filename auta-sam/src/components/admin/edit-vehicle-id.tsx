@@ -6,6 +6,7 @@ import { db } from '../../firebase.config';
 import { Vehicle } from '../../interfaces/Ivehicles';
 import { Button, Container, ContainerForm, Form, Input, Label, Select, Card, CardTitle, CardContent, TextArea } from '../../styled-components/admin/edit-vehicle-id';
 import Swal from 'sweetalert2';
+import Loading from '../loading/loading';
 
 const EditVehicle: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -73,7 +74,7 @@ const EditVehicle: React.FC = () => {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <div><Loading /></div>;
   if (error) return <p>{error}</p>;
 
   return (

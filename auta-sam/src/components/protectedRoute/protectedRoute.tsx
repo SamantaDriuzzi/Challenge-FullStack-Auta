@@ -2,17 +2,18 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useAuth } from '../../context/auth';
+import Loading from '../loading/loading';
 
 interface ProtectedRouteProps {
   element: React.ReactNode;
-  admin?: boolean; // Indica si la ruta requiere permisos de administrador
+  admin?: boolean;
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element, admin = false }) => {
   const { user, loading, isAdmin } = useAuth();
 
   if (loading) {
-    return <div>Loading...</div>; // Muestra un spinner o mensaje de carga
+    return <div><Loading /></div>; 
   }
 
   console.log("ProtectedRoute - usuario autenticado:", user);

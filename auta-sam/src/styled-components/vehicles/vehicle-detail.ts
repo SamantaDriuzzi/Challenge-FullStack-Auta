@@ -6,17 +6,14 @@ export const ContainerDetail = styled.div`
   flex-direction: column;
   background-image: url(${vehiclePage});
   background-repeat: no-repeat;
-  background-size: cover; /* Ajusta el fondo para que cubra el contenedor */
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
   align-items: center;
   justify-content: center;
   padding: 20px;
   box-sizing: border-box;
-  padding-bottom: 100px;
 
   @media (max-width: 768px) {
     padding: 10px;
@@ -27,7 +24,7 @@ export const ModalDetail = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-top: calc(100vh - 250px);
+  margin-top: 200px;
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 20px;
@@ -39,9 +36,9 @@ export const ModalDetail = styled.div`
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 
   @media (max-width: 768px) {
-    margin-top: 20px;
+    margin-top: 200px;
     padding: 10px;
-    width: 90%;
+    width: 70%;
   }
 
   button {

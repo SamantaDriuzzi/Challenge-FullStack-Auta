@@ -24,7 +24,7 @@ const AddVehicleForm: React.FC = () => {
     setError(null);
 
     try {
-      // Upload image to Firebase Storage
+      
       let imageUrl = '';
       if (image) {
         const storageRef = ref(storage, `vehicles/${image.name}`);
@@ -32,13 +32,11 @@ const AddVehicleForm: React.FC = () => {
         imageUrl = await getDownloadURL(storageRef);
       }
 
-      // Convert status to 'available' or 'not available'
       const status = data.status === 'Disponible' ? 'available' : 'not available';
 
-      // Add vehicle data to Firestore
       const newVehicle: Vehicle = {
         ...data,
-        status, // Save converted status
+        status,
         imageURL: imageUrl
       };
 

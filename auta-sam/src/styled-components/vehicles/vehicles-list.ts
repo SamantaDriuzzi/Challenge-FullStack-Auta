@@ -26,10 +26,8 @@ const ContainerFilters = styled.div`
   margin-left: 15px;
 
   @media (max-width: 768px) {
-    flex-direction: row;
     margin-bottom: 20px;
-
-
+  }
 `;
 const Label = styled.label`
   display: flex;
@@ -56,14 +54,14 @@ const ContainerVehicles = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 50px;
+  margin-top: 200px;
   padding: 20px;
   gap: 20px;
 
   @media (max-width: 768px) {
-    margin-top: 0px;
-    gap: 10px;
+    gap: 20px;
     padding: 0px;
+    margin-top: 0px;
   }
 `;
 
@@ -73,19 +71,13 @@ const VehicleCard = styled.div`
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 300px;
+  height: 400px;
   overflow: hidden;
-  margin-top: 140px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-
-  img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-  }
 
   .details {
     padding: 10px;
@@ -119,6 +111,20 @@ const VehicleCard = styled.div`
   @media (max-width: 768px) {
     width: 80%;
     margin-top: 0px;
+  }
+`;
+
+export const ContainerImage = styled.div`
+  width: 300px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 100%;
+    object-fit: cover;
   }
 `;
 
